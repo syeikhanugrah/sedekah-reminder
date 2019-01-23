@@ -1,0 +1,5 @@
+hostname: ubuntubox-sedekah-reminder-dev
+memory: 1024
+cpu: 1
+nfs: true
+ip: 10.0.0.9

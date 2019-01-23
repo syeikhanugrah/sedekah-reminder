@@ -1,0 +1,98 @@
+---
+- hosts: all
+
+  tasks:
+    - include_vars: vars.yml
+
+    - name: Update locale
+      shell: update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+
+    - name: Set timezone to Asia/Jakarta
+      timezone: name=Asia/Jakarta
+
+    - name: Add ppa:ondrej/php
+      apt_repository: repo='ppa:ondrej/php' state=present
+
+    - name: Update repository packages
+      apt: upgrade=no update_cache=yes
+
+    - name: Install repository packages
+      apt:
+        pkg:
+          - nginx
+          - mysql-server
+          - php7.3
+          - php7.3-fpm
+          - php7.3-json
+          - php7.3-cli
+          - php7.3-intl
+          - php7.3-mysql
+          - php7.3-curl
+          - php7.3-xml
+          - php7.3-zip
+          - php7.3-mbstring
+          - python-mysqldb
+        state: present
+
+    - name: Memastikan menggunakan versi php 7.3
+      alternatives:
+        name: php
+        path: /usr/bin/php7.3
+
+    - name: Set php fpm user
+      lineinfile: dest={{item}} regexp=^;?user line='user = vagrant'
+      with_items:
+        - /etc/php/7.3/fpm/pool.d/www.conf
+      notify:
+        - restart nginx
+        - restart php-fpm
+
+    - name: Set php fpm group
+      lineinfile: dest={{item}} regexp=^;?group line='group = vagrant'
+      with_items:
+        - /etc/php/7.3/fpm/pool.d/www.conf
+      notify:
+        - restart nginx
+        - restart php-fpm
+
+    - name: Set php timezone
+      lineinfile: dest={{item}} regexp=^;?date.timezone line='date.timezone = Asia/Jakarta'
+      with_items:
+        - /etc/php/7.3/fpm/php.ini
+        - /etc/php/7.3/cli/php.ini
+      notify:
+        - restart nginx
+        - restart php-fpm
+
+    - name: Memastikan mysql berjalan dan mulai ketika boot
+      service: name=mysql state=started enabled=true
+
+    - name: Copy my.cnf file dengan kredensial password root
+      template: src=files/my.cnf dest=/root/.my.cnf owner=root mode=0600
+
+    - name: Set mysql password root
+      mysql_user: name={{ mysql_root_user }} host=localhost password={{ mysql_root_pass }} sql_log_bin=yes priv=*.*:ALL,GRANT
+      become: true
+
+    - name: Membuat database aplikasi
+      mysql_db: name={{ mysql_db_name }} login_user={{ mysql_root_user }} login_password={{ mysql_root_pass }} login_host=localhost state=present
+
+    - name: Copy sertifikat ssl aplikasi
+      copy: src=files/{{ item.src }} dest={{ item.dest }}
+      with_items:
+        - { src: 'sedekah-reminder.dev.pem', dest: '/etc/ssl/certs/sedekah-reminder.dev.pem' }
+        - { src: 'sedekah-reminder.dev-key.pem', dest: '/etc/ssl/private/sedekah-reminder.dev-key.pem' }
+
+    - name: Install virtual host
+      copy: src=files/sedekah-reminder.dev dest=/etc/nginx/sites-enabled/sedekah-reminder.dev
+      notify:
+        - restart nginx
+
+    - name: Menambah domain aplikasi ke host
+      lineinfile: dest=/etc/hosts line='127.0.0.1 sedekah-reminder.dev' state=present
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
+    - name: restart php-fpm
+      service: name=php7.3-fpm state=restarted
