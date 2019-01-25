@@ -14,3 +14,10 @@ provisioning/vars.yml
 provisioning/files/my.cnf
 provisioning/files/sedekah-reminder.dev.pem
 provisioning/files/sedekah-reminder.dev-key.pem
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
