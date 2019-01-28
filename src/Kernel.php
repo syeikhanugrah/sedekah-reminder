@@ -17,6 +17,10 @@ class Kernel extends BaseKernel
 
     public function getCacheDir()
     {
+        if (in_array($this->environment, array('dev', 'test'))) {
+            return '/dev/shm/app/cache/'.$this->environment;
+        }
+
         return $this->getProjectDir().'/var/cache/'.$this->environment;
     }
 

@@ -1,0 +1,37 @@
+security:
+    encoders:
+        App\Entity\User: bcrypt
+
+    providers:
+        database_users:
+            entity:
+                class: App\Entity\User
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            pattern: ^/
+            anonymous: true
+            form_login:
+                check_path: security_login
+                login_path: security_login
+                csrf_token_generator: security.csrf.token_manager
+                default_target_path: default_index
+            logout:
+                path: security_logout
+                target: security_login
+            guard:
+                authenticators:
+                    - App\Security\SocialAuthenticator\GoogleAuthenticator
+
+    access_control:
+        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/connect/google, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/connect/google/check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
