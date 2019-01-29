@@ -51,6 +51,7 @@ class AddUserCommand extends Command
             ->addArgument('password', InputArgument::OPTIONAL, 'Password untuk user baru')
             ->addArgument('email', InputArgument::OPTIONAL, 'Email untuk user baru')
             ->addArgument('nama-lengkap', InputArgument::OPTIONAL, 'Nama lengkap untuk user baru')
+            ->addArgument('nomor-ponsel', InputArgument::OPTIONAL, 'Nomor ponsel untuk user baru')
             ->addOption('admin', null, InputOption::VALUE_NONE, 'Jika di set, user dibuat sebagai administrator')
         ;
     }
@@ -106,6 +107,14 @@ class AddUserCommand extends Command
             $namaLengkap = $this->io->ask('Nama Lengkap', null, [$this->validator, 'validateNamaLengkap']);
             $input->setArgument('nama-lengkap', $namaLengkap);
         }
+
+        $nomorPonsel = $input->getArgument('nomor-ponsel');
+        if (null !== $nomorPonsel) {
+            $this->io->text(' > <info>Nomor Ponsel</info>: '.$nomorPonsel);
+        } else {
+            $nomorPonsel = $this->io->ask('Nomor Ponsel', null, [$this->validator, 'validateNomorPonsel']);
+            $input->setArgument('nomor-ponsel', $nomorPonsel);
+        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -114,14 +123,16 @@ class AddUserCommand extends Command
         $plainPassword = $input->getArgument('password');
         $email = $input->getArgument('email');
         $namaLengkap = $input->getArgument('nama-lengkap');
+        $nomorPonsel = $input->getArgument('nomor-ponsel');
         $isAdmin = $input->getOption('admin');
 
-        $this->validateUserData($username, $plainPassword, $email, $namaLengkap);
+        $this->validateUserData($username, $plainPassword, $email, $namaLengkap, $nomorPonsel);
 
         $user = new User();
         $user->setNamaLengkap($namaLengkap);
         $user->setUsername($username);
         $user->setEmail($email);
+        $user->setNomorHp($nomorPonsel);
         $user->setRoles([$isAdmin ? 'ROLE_ADMIN' : 'ROLE_USER']);
 
         $encodedPassword = $this->passwordEncoder->encodePassword($user, $plainPassword);
@@ -134,7 +145,7 @@ class AddUserCommand extends Command
         $this->io->success(sprintf('%s berhasil dibuat: %s (%s)', $isAdmin ? 'Administrator user' : 'User', $user->getUsername(), $user->getEmail()));
     }
 
-    private function validateUserData($username, $plainPassword, $email, $namaLengkap)
+    private function validateUserData($username, $plainPassword, $email, $namaLengkap, $nomorPonsel)
     {
         $existingUser = $this->users->findOneBy(['username' => $username]);
 
@@ -145,6 +156,7 @@ class AddUserCommand extends Command
         $this->validator->validatePassword($plainPassword);
         $this->validator->validateEmail($email);
         $this->validator->validateNamaLengkap($namaLengkap);
+        $this->validator->validateNomorPonsel($nomorPonsel);
 
         $existingEmail = $this->users->findOneBy(['email' => $email]);
 
