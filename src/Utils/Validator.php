@@ -53,4 +53,13 @@ class Validator
 
         return $namaLengkap;
     }
+
+    public function validateNomorPonsel(?string $nomorPonsel): string
+    {
+        if (empty($nomorPonsel)) {
+            throw new InvalidArgumentException('Nomor Ponsel tidak boleh kosong.');
+        }
+
+        return $nomorPonsel;
+    }
 }
