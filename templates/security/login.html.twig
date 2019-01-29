@@ -7,16 +7,29 @@
 
 {% block body %}
     <div class="form-login">
-        <img src="{{ asset('build/images/logo.png') }}" class="img-responsive img-center" alt="Logo">
+        <img src="{{ asset('build/images/logo.png') }}" class="img-responsive img-center mb-4" alt="Logo">
 
         {% if error %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ error.messageKey|trans(error.messageData, 'security') }}
+
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
         {% endif %}
+
+        {% for type, messages in app.flashes %}
+            <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
 
         <form action="{{ path('security_login') }}" method="post">
             <div class="form-group">
@@ -59,7 +72,7 @@
         <div class="row">
             <div class="col">
                 Belum punya akun? <br>
-                <a href="#">Daftar sekarang</a>
+                <a href="{{ path('registration_index') }}">Daftar sekarang</a>
             </div>
 
             <div class="col text-right">

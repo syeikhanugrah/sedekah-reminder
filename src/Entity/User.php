@@ -144,7 +144,7 @@ class User implements UserInterface, \Serializable
         return $this->nomorHp;
     }
 
-    public function setConfirmationToken(string $confirmationToken): void
+    public function setConfirmationToken(?string $confirmationToken): void
     {
         $this->confirmationToken = $confirmationToken;
     }

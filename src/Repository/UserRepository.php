@@ -14,6 +14,15 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         parent::__construct($registry, User::class);
     }
 
+    public function findByConfirmationToken($confirmationToken)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.confirmationToken = :confirmationToken')
+            ->setParameter('confirmationToken', $confirmationToken)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function loadUserByUsername($username)
     {
         return $this->createQueryBuilder('u')

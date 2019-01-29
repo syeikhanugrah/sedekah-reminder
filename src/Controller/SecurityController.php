@@ -14,6 +14,10 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $helper): Response
     {
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('default_index');
+        }
+
         return $this->render('security/login.html.twig', [
             'error' => $helper->getLastAuthenticationError(),
         ]);

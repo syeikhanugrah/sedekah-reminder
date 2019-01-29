@@ -7,7 +7,7 @@
 
 {% block body %}
     <div class="form-registration">
-        <img src="{{ asset('build/images/logo.png') }}" class="img-responsive img-center" alt="Logo">
+        <img src="{{ asset('build/images/logo.png') }}" class="img-responsive img-center mb-4" alt="Logo">
 
         {{ form_start(form) }}
             <div class="form-group">
@@ -42,14 +42,16 @@
             <button type="submit" class="btn btn-primary btn-block">Daftar</button>
         {{ form_end(form) }}
 
-        <div class="separator"><span>Atau</span></div>
+        {% if not app.session.has('guard.finish_registration.user_information') %}
+            <div class="separator"><span>Atau</span></div>
 
-        <div class="row mb-4">
-            <div class="col">
-                <a href="{{ path('connect_google') }}" class="btn btn-secondary btn-block">
-                    <i class="fab fa-google"></i> Daftar dengan Google
-                </a>
+            <div class="row mb-4">
+                <div class="col">
+                    <a href="{{ path('connect_google') }}" class="btn btn-secondary btn-block">
+                        <i class="fab fa-google"></i> Daftar dengan Google
+                    </a>
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 {% endblock %}
