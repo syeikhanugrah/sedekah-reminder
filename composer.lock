@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "860382e06b578bc16da7afd80f6fab2d",
+    "content-hash": "7eba3a2003d32797d39ae6ba91f77c7a",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2892,6 +2892,56 @@
             "time": "2019-01-01T18:08:36+00:00"
         },
         {
+            "name": "symfony/expression-language",
+            "version": "v3.4.21",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/expression-language.git",
+                "reference": "55d6b84470157129ce30339d266563502af391d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/expression-language/zipball/55d6b84470157129ce30339d266563502af391d2",
+                "reference": "55d6b84470157129ce30339d266563502af391d2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8",
+                "symfony/cache": "~3.1|~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\ExpressionLanguage\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony ExpressionLanguage Component",
+            "homepage": "https://symfony.com",
+            "time": "2019-01-01T13:45:19+00:00"
+        },
+        {
             "name": "symfony/filesystem",
             "version": "v3.4.21",
             "source": {
@@ -4213,6 +4263,62 @@
             "description": "Symfony SwiftmailerBundle",
             "homepage": "http://symfony.com",
             "time": "2019-01-05T11:51:59+00:00"
+        },
+        {
+            "name": "symfony/templating",
+            "version": "v3.4.21",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/templating.git",
+                "reference": "dc321482b52d3d486858178c3425cf52046034cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/templating/zipball/dc321482b52d3d486858178c3425cf52046034cb",
+                "reference": "dc321482b52d3d486858178c3425cf52046034cb",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8",
+                "symfony/polyfill-ctype": "~1.8"
+            },
+            "require-dev": {
+                "psr/log": "~1.0"
+            },
+            "suggest": {
+                "psr/log-implementation": "For using debug logging in loaders"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Templating\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Templating Component",
+            "homepage": "https://symfony.com",
+            "time": "2019-01-01T13:45:19+00:00"
         },
         {
             "name": "symfony/translation",
