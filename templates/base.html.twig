@@ -24,7 +24,12 @@
                     <div class="collapse navbar-collapse" id="navbarMenu">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fas fa-ellipsis-v"></i></a>
+                                <a class="nav-link" href="{{ path('pengingat_index') }}">Pengingat</a>
+                            </li>
+                            <li class="nav-item">
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                    <a class="nav-link" href="{{ path('security_logout') }}">Keluar</a>
+                                {% endif %}
                             </li>
                         </ul>
                     </div>
