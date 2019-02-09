@@ -12,4 +12,9 @@ class PengingatRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Pengingat::class);
     }
+
+    public function findByUser($user)
+    {
+        return $this->findBy(['user' => $user]);
+    }
 }
