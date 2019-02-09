@@ -11,10 +11,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegistrationController extends AbstractController
@@ -24,9 +21,7 @@ class RegistrationController extends AbstractController
      */
     public function indexAction(
         Request $request,
-        SessionInterface $session,
         UserPasswordEncoderInterface $passwordEncoder,
-        TokenStorageInterface $tokenStorage,
         EventDispatcherInterface $eventDispatcher
     ): Response {
         $user = new User();
@@ -42,18 +37,13 @@ class RegistrationController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            $token = new UsernamePasswordToken($user, $password, 'main', $user->getRoles());
-            $tokenStorage->setToken($token);
-
-            $session->set('_security_main', serialize($token));
-
-            $message = 'Selamat datang %s! Anda telah berhasil terdaftar, harap cek email untuk mengkonfirmasi akun anda.';
-            $this->addFlash('success', sprintf($message, $user->getNamaLengkap()));
+            $message = 'Anda telah berhasil terdaftar, harap cek email untuk mengkonfirmasi akun anda.';
+            $this->addFlash('success', $message);
 
             $event = new GenericEvent($user);
             $eventDispatcher->dispatch(Events::REGISTRATION_SUCCESS, $event);
 
-            return $this->redirectToRoute('default_index');
+            return $this->redirectToRoute('security_login');
         }
 
         return $this->render('registration/index.html.twig', [
