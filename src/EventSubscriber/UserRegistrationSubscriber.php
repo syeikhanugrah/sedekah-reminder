@@ -4,7 +4,6 @@ namespace App\EventSubscriber;
 
 use App\Entity\User;
 use App\Events;
-use Symfony\Component\Asset\Packages;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -14,20 +13,17 @@ class UserRegistrationSubscriber implements EventSubscriberInterface
     private $mailer;
     private $twig;
     private $urlGenerator;
-    private $assetsPackages;
     private $sender;
 
     public function __construct(
         \Swift_Mailer $mailer,
         \Twig_Environment $twig,
         UrlGeneratorInterface $urlGenerator,
-        Packages $assetsPackages,
         $sender
     ) {
         $this->mailer = $mailer;
         $this->twig = $twig;
         $this->urlGenerator = $urlGenerator;
-        $this->assetsPackages = $assetsPackages;
         $this->sender = $sender;
     }
 
