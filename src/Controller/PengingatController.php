@@ -21,7 +21,7 @@ class PengingatController extends Controller
     public function index(PengingatRepository $pengingatRepository): Response
     {
         return $this->render('pengingat/index.html.twig', [
-            'entities' => $pengingatRepository->findAll(),
+            'entities' => $pengingatRepository->findByUser($this->getUser()),
         ]);
     }
 
