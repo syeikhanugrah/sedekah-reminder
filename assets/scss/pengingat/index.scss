@@ -1,0 +1,8 @@
+@import "../app";
+
+@include media-breakpoint-between(lg, xl) {
+  .pengingat {
+    width: 50%;
+    margin: auto;
+  }
+}

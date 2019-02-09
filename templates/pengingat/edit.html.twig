@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Pengingat{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style type="text/css">
+        {% if pengingat.perulangan == constant('PENGINGAT_MINGGUAN', pengingat) %}
+            #perulangan-bulanan {
+                display: none;
+            }
+        {% elseif pengingat.perulangan == constant('PENGINGAT_BULANAN', pengingat) %}
+            #perulangan-mingguan {
+                display: none;
+            }
+        {% else %}
+            #perulangan-mingguan {
+                display: none;
+            }
+            #perulangan-bulanan {
+                display: none;
+            }
+        {% endif %}
+
+        {% if pengingat.selamanya %}
+            #fieldTanggalAkhirContainer {
+                display: none;
+            }
+        {% endif %}
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h1>Ubah Pengingat</h1>
+
+    {{ include('pengingat/_form.html.twig', {'button_label': 'Perbarui Pengingat'}) }}
+
+    {{ include('pengingat/_delete_form.html.twig', {'button_class': 'btn-block-xs-only'}) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        function tampilkanPilihanPerulangan(perulangan) {
+            let mingguanHariKe = $('#perulangan-mingguan');
+            let bulananHariKe = $('#perulangan-bulanan');
+
+            switch (+perulangan) {
+                case 1:
+                    mingguanHariKe.hide();
+                    bulananHariKe.hide();
+                    break;
+                case 2:
+                    mingguanHariKe.show();
+                    bulananHariKe.hide();
+                    break;
+                case 3:
+                    bulananHariKe.show();
+                    mingguanHariKe.hide();
+                    break;
+            }
+        }
+
+        $(document).ready(function() {
+            let elementFieldSelamanya = $('#pengingat_selamanya');
+            let elementTanggalAkhir = $('#fieldTanggalAkhirContainer');
+
+            $(elementFieldSelamanya).click(function() {
+                elementTanggalAkhir[this.checked ? 'hide' : 'show']();
+            });
+
+            let elementPerulangan = $('#pengingat_perulangan');
+
+            elementPerulangan.change(function() {
+                let perulangan = $(this).val();
+
+                tampilkanPilihanPerulangan(perulangan);
+            });
+
+            $('.datepicker-tanggalAwal').datepicker();
+            $('.datepicker-tanggalAkhir').datepicker();
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,33 @@
+{{ form_start(form) }}
+    {{ form_row(form.judul) }}
+
+    <div class="form-group row">
+        <label class="col-form-label col-sm-2">Ingatkan saya</label>
+        <div class="col">{{ form_widget(form.perulangan) }}</div>
+    </div>
+
+    <div class="form-group row">
+        <div id="perulangan-mingguan" class="offset-sm-2 col-sm-10">
+            {{ form_widget(form.mingguanHariKe) }}
+        </div>
+
+        <div id="perulangan-bulanan" class="offset-sm-2 col-sm-10">
+            {{ form_widget(form.bulananHariKe) }}
+        </div>
+    </div>
+
+    {{ form_row(form.tanggalAwal) }}
+
+    <div id="fieldTanggalAkhirContainer" class="form-group">
+        {{ form_row(form.tanggalAkhir) }}
+    </div>
+
+    {{ form_row(form.selamanya) }}
+
+    <div class="form-group row">
+        <div class="offset-sm-2 col-sm-10">
+            <button class="btn btn-primary btn-block-xs-only mb-2 mb-sm-0">{{ button_label }}</button>
+            <a href="{{ path('pengingat_index') }}" class="btn btn-secondary btn-block-xs-only">Batal</a>
+        </div>
+    </div>
+{{ form_end(form) }}

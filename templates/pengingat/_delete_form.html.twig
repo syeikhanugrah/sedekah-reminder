@@ -1,0 +1,6 @@
+<form method="post" action="{{ path('pengingat_delete', {'id': pengingat.id}) }}" onsubmit="return confirm('Apakah yakin ingin menghapus pengingat ini?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ pengingat.id) }}">
+
+    <button class="btn btn-danger {{ button_class ?? '' }}">Hapus</button>
+</form>

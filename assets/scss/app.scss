@@ -6,6 +6,8 @@ $web-font-path: "data:text/css;base64,";
 
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
 
+@import "~jquery-ui/themes/base/all.css";
+
 @import '~lato-font/scss/public-api';
 @include lato-include-font('normal');
 @include lato-include-font('bold');
@@ -16,4 +18,15 @@ body {
 
 i {
   margin-right: 0.25em
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+}
+
+@include media-breakpoint-only(xs) {
+  .btn-block-xs-only {
+    display: block;
+    width: 100%;
+  }
 }

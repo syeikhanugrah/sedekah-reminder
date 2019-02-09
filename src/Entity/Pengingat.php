@@ -10,6 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Pengingat
 {
+    const PENGINGAT_HARIAN = 1;
+    const PENGINGAT_MINGGUAN = 2;
+    const PENGINGAT_BULANAN = 3;
+
     /**
      * @var int
      *
@@ -29,14 +33,14 @@ class Pengingat
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="date", nullable=true)
      */
     private $tanggalAwal;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="date", nullable=true)
      */
     private $tanggalAkhir;
 
@@ -156,8 +160,35 @@ class Pengingat
         $this->user = $user;
     }
 
-    public function getUser(): User
+    public function getUser(): ?User
     {
         return $this->user;
+    }
+
+    public static function getDaftarPerulangan(): array
+    {
+        return [
+            self::PENGINGAT_HARIAN => 'Setiap hari',
+            self::PENGINGAT_MINGGUAN => 'Setiap minggu',
+            self::PENGINGAT_BULANAN => 'Setiap bulan',
+        ];
+    }
+
+    public static function getDaftarNamaHari(): array
+    {
+        return [
+            1 => 'Senin',
+            'Selasa',
+            'Rabu',
+            'Kamis',
+            'Jumat',
+            'Sabtu',
+            'Minggu',
+        ];
+    }
+
+    public static function getDaftarAngkaHariSebulan(): array
+    {
+        return array_combine(range(1, 31), range(1, 31));
     }
 }

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pengingat saya{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {{ encore_entry_link_tags('css/pengingat/index') }}
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Pengingat saya</h1>
+
+    <div class="row">
+        <div class="col-12 mb-3 text-center">
+            <a href="{{ path('pengingat_new') }}" class="btn btn-primary">Tambah pengingat baru</a>
+        </div>
+
+        {% for pengingat in entities %}
+            {% set teksNotifikasi = pengingat.daftarPerulangan[pengingat.perulangan] %}
+            {% if pengingat.perulangan == constant('PENGINGAT_MINGGUAN', pengingat) %}
+                {% set teksNotifikasi = teksNotifikasi ~ ' &raquo; Setiap hari ' ~ pengingat.daftarNamaHari[pengingat.mingguanHariKe] %}
+            {% elseif pengingat.perulangan == constant('PENGINGAT_BULANAN', pengingat) %}
+                {% set teksNotifikasi = teksNotifikasi ~ ' &raquo; Setiap tanggal ' ~ pengingat.bulananHariKe %}
+            {% else %}
+                {% set teksNotifikasi = teksNotifikasi %}
+            {% endif %}
+
+            <div class="col-12 mb-3">
+                <div class="card pengingat shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ pengingat.judul }}</h3>
+                        <div class="card-text">
+                            <ul class="list-unstyled text-black-50">
+                                <li><i class="fas fa-bell mr-3 text-danger"></i> {{ teksNotifikasi|raw }}</li>
+                                <li><i class="far fa-calendar mr-3 text-info"></i> {{ pengingat.tanggalAwal|date('d/m/Y') }} &mdash; {{ pengingat.selamanya ? 'Selamanya' : pengingat.tanggalAkhir|date('d/m/Y') }}</li>
+                            </ul>
+                        </div>
+                        <ul class="list-unstyled list-inline m-0">
+                            <li class="list-inline-item">
+                                <a href="{{ path('pengingat_show', {'id': pengingat.id}) }}" class="btn btn-primary">Lihat</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="{{ path('pengingat_edit', {'id': pengingat.id}) }}" class="btn btn-secondary">Ubah</a>
+                            </li>
+                            <li class="list-inline-item">
+                                {{ include('pengingat/_delete_form.html.twig') }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12">
+                <div class="card pengingat text-center">
+                    <div class="card-body">
+                        <i class="far fa-calendar-times fa-9x mr-0 text-muted"></i>
+                        <h3 class="mt-2">Belum ada pengingat</h3>
+                        <a href="{{ path('pengingat_new') }}" class="btn btn-primary btn-lg btn-block-xs-only">Ayo buat pengingat!</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

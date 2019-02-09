@@ -20,6 +20,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "bootswatch": "^4.2.1"
+        "bootswatch": "^4.2.1",
+        "file-loader": "^3.0.1",
+        "jquery-ui": "^1.12.1"
     }
 }

@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Pengingat{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style type="text/css">
+        #perulangan-mingguan {
+            display: none;
+        }
+        #perulangan-bulanan {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h1>Pengingat baru</h1>
+
+    {{ include('pengingat/_form.html.twig', {'button_label': 'Buat Pengingat'}) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        function tampilkanPilihanPerulangan(perulangan) {
+            let mingguanHariKe = $('#perulangan-mingguan');
+            let bulananHariKe = $('#perulangan-bulanan');
+
+            switch (+perulangan) {
+                case 1:
+                    mingguanHariKe.hide();
+                    bulananHariKe.hide();
+                    break;
+                case 2:
+                    mingguanHariKe.show();
+                    bulananHariKe.hide();
+                    break;
+                case 3:
+                    bulananHariKe.show();
+                    mingguanHariKe.hide();
+                    break;
+            }
+        }
+
+        $(document).ready(function() {
+            let elementFieldSelamanya = $('#pengingat_selamanya');
+            let elementTanggalAkhir = $('#fieldTanggalAkhirContainer');
+
+            $(elementFieldSelamanya).click(function() {
+                elementTanggalAkhir[this.checked ? 'hide' : 'show']();
+            });
+
+            let elementPerulangan = $('#pengingat_perulangan');
+
+            elementPerulangan.change(function() {
+                perulangan = $(this).val();
+
+                tampilkanPilihanPerulangan(perulangan);
+            });
+
+            $('.datepicker-tanggalAwal').datepicker();
+            $('.datepicker-tanggalAkhir').datepicker();
+        });
+    </script>
+{% endblock %}
