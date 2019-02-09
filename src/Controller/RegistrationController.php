@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Events;
 use App\Form\RegistrationType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -53,11 +53,11 @@ class RegistrationController extends AbstractController
 
     /**
      * @Route("/register/confirm/{confirmationToken}", name="registration_confirm")
-     * @Entity("user", expr="repository.findByConfirmationToken(confirmationToken)")
      */
-    public function confirmAction(User $user)
+    public function confirmAction($confirmationToken, UserRepository $repository)
     {
-        if (!$user) {
+        $user = $repository->findByConfirmationToken($confirmationToken);
+        if (!$user instanceof User) {
             return $this->redirectToRoute('security_login');
         }
 
