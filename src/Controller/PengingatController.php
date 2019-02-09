@@ -55,6 +55,8 @@ class PengingatController extends Controller
      */
     public function show(Pengingat $pengingat): Response
     {
+        $this->denyAccessUnlessGranted('show', $pengingat, 'Akses ditolak!');
+
         return $this->render('pengingat/show.html.twig', [
             'pengingat' => $pengingat,
         ]);
@@ -65,6 +67,8 @@ class PengingatController extends Controller
      */
     public function edit(Request $request, Pengingat $pengingat): Response
     {
+        $this->denyAccessUnlessGranted('edit', $pengingat, 'Akses ditolak!');
+
         $form = $this->createForm(PengingatType::class, $pengingat);
         $form->handleRequest($request);
 
@@ -87,6 +91,8 @@ class PengingatController extends Controller
      */
     public function delete(Request $request, Pengingat $pengingat): Response
     {
+        $this->denyAccessUnlessGranted('delete', $pengingat, 'Akses ditolak!');
+
         if ($this->isCsrfTokenValid('delete'.$pengingat->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($pengingat);
