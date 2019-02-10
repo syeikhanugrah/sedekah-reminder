@@ -33,3 +33,6 @@ services:
     # please note that last definitions always *replace* previous ones
     App\EventSubscriber\UserRegistrationSubscriber:
         $sender: '%mailer_user%'
+
+    App\EventSubscriber\ResetPasswordSubscriber:
+        $sender: '%mailer_user%'

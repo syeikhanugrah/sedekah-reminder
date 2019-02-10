@@ -12,6 +12,7 @@ Encore
     .addStyleEntry('css/login', './assets/scss/login.scss')
     .addStyleEntry('css/registration', './assets/scss/registration.scss')
     .addStyleEntry('css/pengingat/index', './assets/scss/pengingat/index.scss')
+    .addStyleEntry('css/reset_password', './assets/scss/reset_password.scss')
     .enableSourceMaps(!Encore.isProduction())
     .enableSingleRuntimeChunk()
     .addPlugin(new CopyWebpackPlugin([
