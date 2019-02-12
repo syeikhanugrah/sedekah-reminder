@@ -36,6 +36,8 @@ security:
         - { path: ^/lupa-password/cari-akun, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/lupa-password/cek-email, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/lupa-password/reset, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/kirim-ulang-email-aktivasi, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/kirim-ulang-email-aktivasi/cek-email, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
     role_hierarchy:
