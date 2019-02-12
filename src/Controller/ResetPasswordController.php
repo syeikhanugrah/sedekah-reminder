@@ -37,6 +37,8 @@ class ResetPasswordController extends AbstractController
 
             if (!$user instanceof User) {
                 $this->addFlash('danger', 'Akun tidak ditemukan');
+
+                return $this->redirectToRoute('reset_password_cari_akun');
             }
 
             $event = new GenericEvent($user);
