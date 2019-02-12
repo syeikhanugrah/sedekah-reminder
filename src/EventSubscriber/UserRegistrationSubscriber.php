@@ -46,6 +46,7 @@ class UserRegistrationSubscriber implements EventSubscriberInterface
         $template = $this->renderTemplate([
             'user' => $user,
             'confirmationUrl' => $confirmationUrl,
+            'resend' => $event->hasArgument('resend'),
         ]);
 
         $message = (new \Swift_Message())
@@ -60,7 +61,12 @@ class UserRegistrationSubscriber implements EventSubscriberInterface
 
     private function renderTemplate(array $options)
     {
-        return $this->twig->render('registration/confirm_registration_email.html.twig', [
+        $template = $options['resend'] ?
+            'resend_user_confirmation_token/confirm_resend_user_confirmation_token_email.html.twig' :
+            'registration/confirm_registration_email.html.twig'
+        ;
+
+        return $this->twig->render($template, [
             'user' => $options['user'],
             'confirmationUrl' => $options['confirmationUrl'],
         ]);
