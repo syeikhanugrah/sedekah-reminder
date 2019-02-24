@@ -134,6 +134,7 @@ class AddUserCommand extends Command
         $user->setEmail($email);
         $user->setNomorHp($nomorPonsel);
         $user->setRoles([$isAdmin ? 'ROLE_ADMIN' : 'ROLE_USER']);
+        $user->setEnabled(true);
 
         $encodedPassword = $this->passwordEncoder->encodePassword($user, $plainPassword);
         $user->setPassword($encodedPassword);
