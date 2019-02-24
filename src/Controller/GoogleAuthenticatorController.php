@@ -36,7 +36,7 @@ class GoogleAuthenticatorController extends AbstractController
         if (!$this->getUser()) {
             return new JsonResponse(array('status' => false, 'message' => 'User not found!'));
         } else {
-            return $this->redirectToRoute('default_index');
+            return $this->redirectToRoute('pengingat_index');
         }
     }
 
@@ -76,7 +76,7 @@ class GoogleAuthenticatorController extends AbstractController
             $authenticatorHandler->authenticateUserAndHandleSuccess($user, $request, $googleAuthenticator, 'main');
             $this->addFlash('success', sprintf('Berhasil terdaftar, selamat datang %s!', $user->getNamaLengkap()));
 
-            return $this->redirectToRoute('default_index');
+            return $this->redirectToRoute('pengingat_index');
         }
 
         return $this->render('registration/index.html.twig', [
