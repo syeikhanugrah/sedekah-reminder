@@ -34,7 +34,7 @@ class LogSmsKeluar
 
     /**
      * @ORM\ManyToOne(targetEntity="Pengingat")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $pengingat;
 
