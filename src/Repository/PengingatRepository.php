@@ -13,8 +13,16 @@ class PengingatRepository extends ServiceEntityRepository
         parent::__construct($registry, Pengingat::class);
     }
 
-    public function findByUser($user)
+    public function findAllEntities(array $options)
     {
-        return $this->findBy(['user' => $user]);
+        $qb = $this->createQueryBuilder('pengingat')
+            ->orderBy('pengingat.tanggalAwal')
+        ;
+
+        if (!$options['isAdmin']) {
+            $qb->where('pengingat.user = :user')->setParameter('user', $options['user']);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 }

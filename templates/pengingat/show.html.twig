@@ -20,6 +20,14 @@
                         {{ pengingat.daftarPerulangan[pengingat.perulangan] }}
                     {% endif %}
                 </dd>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <dt class="col-sm-3">Nama penerima</dt>
+                    <dd class="col-sm-9">{{ pengingat.user ? pengingat.user.namaLengkap : pengingat.namaPenerima }}</dd>
+                    <dt class="col-sm-3">Nomor hp penerima</dt>
+                    <dd class="col-sm-9">{{ pengingat.user ? pengingat.user.nomorHp : pengingat.nomorHpPenerima }}</dd>
+                {% endif %}
+                <dt class="col-sm-3">Nominal sedekah</dt>
+                <dd class="col-sm-9">Rp. {{ pengingat.nominalSedekah|number_format(0, ',','.') }}</dd>
                 <dt class="col-sm-3">Tanggal dimulai</dt>
                 <dd class="col-sm-9">{{ pengingat.tanggalAwal|date('d/m/Y') }}</dd>
                 <dt class="col-sm-3">Tanggal akhir</dt>

@@ -34,6 +34,7 @@
                             <ul class="list-unstyled text-black-50">
                                 <li><i class="fas fa-bell mr-3 text-danger"></i> {{ teksNotifikasi|raw }}</li>
                                 <li><i class="far fa-calendar mr-3 text-info"></i> {{ pengingat.tanggalAwal|date('d/m/Y') }} &mdash; {{ pengingat.selamanya ? 'Selamanya' : pengingat.tanggalAkhir|date('d/m/Y') }}</li>
+                                <li><i class="fas fa-money-bill mr-3 text-success"></i>Rp. {{ pengingat.nominalSedekah|number_format(0, ',', '.') }}</li>
                             </ul>
                         </div>
                         <ul class="list-unstyled list-inline m-0">

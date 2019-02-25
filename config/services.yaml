@@ -41,3 +41,7 @@ services:
     App\Service\PengirimPesan:
         arguments:
             $perintah: '%url_api_sms%'
+
+    App\EventListener\PerulanganNormalizerListener:
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }

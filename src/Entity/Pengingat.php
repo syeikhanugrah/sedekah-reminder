@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PengingatRepository")
  * @ORM\Table(name="pengingat")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Pengingat
 {
@@ -29,6 +30,20 @@ class Pengingat
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $judul;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $namaPenerima;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $nomorHpPenerima;
 
     /**
      * @var \DateTime
@@ -73,10 +88,17 @@ class Pengingat
     private $bulananHariKe;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private $nominalSedekah;
+
+    /**
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
@@ -93,6 +115,26 @@ class Pengingat
     public function getJudul(): ?string
     {
         return $this->judul;
+    }
+
+    public function setNamaPenerima(?string $namaPenerima)
+    {
+        $this->namaPenerima = $namaPenerima;
+    }
+
+    public function getNamaPenerima(): ?string
+    {
+        return $this->namaPenerima;
+    }
+
+    public function setNomorHpPenerima(?string $nomorHpPenerima)
+    {
+        $this->nomorHpPenerima = $nomorHpPenerima;
+    }
+
+    public function getNomorHpPenerima(): ?string
+    {
+        return $this->nomorHpPenerima;
     }
 
     public function setTanggalAwal(?\DateTime $tanggalAwal)
@@ -155,7 +197,17 @@ class Pengingat
         return $this->bulananHariKe;
     }
 
-    public function setUser(User $user)
+    public function setNominalSedekah(?string $nominalSedekah)
+    {
+        $this->nominalSedekah = $nominalSedekah;
+    }
+
+    public function getNominalSedekah(): ?string
+    {
+        return $this->nominalSedekah;
+    }
+
+    public function setUser(?User $user)
     {
         $this->user = $user;
     }

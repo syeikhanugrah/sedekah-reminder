@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\LogSmsKeluar;
 use App\Entity\Pengingat;
+use App\Entity\User;
 use App\Repository\LogSmsKeluarRepository;
 use App\Repository\PengingatRepository;
 use App\Service\PengirimPesan;
@@ -110,16 +111,20 @@ class PengirimNotifikasiPengingatCommand extends Command
             }
 
             $user = $pengingat->getUser();
+            $namaLengkap = $user instanceof User ? $user->getNamaLengkap() : $pengingat->getNamaPenerima();
+            $tujuan = $user instanceof User ? $user->getNomorHp() : $pengingat->getNomorHpPenerima();
+
             $pesanPengingat = $this->getPesanPengingat();
-            $pesanPengingat = str_replace('%user%', $user->getNamaLengkap(), $pesanPengingat);
+            $pesanPengingat = str_replace('%user%', $namaLengkap, $pesanPengingat);
             $pesanPengingat = str_replace('%judul-pengingat%', $pengingat->getJudul(), $pesanPengingat);
+            $pesanPengingat = str_replace('%nominal-sedekah%', number_format($pengingat->getNominalSedekah(), 0, ',', '.'), $pesanPengingat);
 
             $pengirimPesan->setPesan($pesanPengingat);
-            $pengirimPesan->setTujuan($user->getNomorHp());
+            $pengirimPesan->setTujuan($tujuan);
             $pengirimPesan->kirim();
 
             $this->catatLogSmsKeluar([
-                'tujuan' => $user->getNomorHp(),
+                'tujuan' => $tujuan,
                 'pesan' => $pesanPengingat,
                 'pengingat' => $pengingat,
             ]);
@@ -142,6 +147,6 @@ class PengirimNotifikasiPengingatCommand extends Command
 
     private function getPesanPengingat(): string
     {
-        return 'Assalamu\'alaikum %user%, ini hanya pengingat bahwa Anda memiliki komitmen %judul-pengingat% pada hari ini.';
+        return 'Assalamu\'alaikum %user%, ini hanya pengingat bahwa Anda memiliki komitmen %judul-pengingat% pada hari ini sebesar Rp. %nominal-sedekah%.';
     }
 }

@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Pengingat;
+use App\Entity\User;
 use App\Form\PengingatType;
 use App\Repository\PengingatRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * @Route("/")
@@ -18,24 +20,31 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="pengingat_index", methods={"GET"})
      */
-    public function index(PengingatRepository $pengingatRepository): Response
+    public function index(PengingatRepository $pengingatRepository, AuthorizationCheckerInterface $authorizationChecker): Response
     {
         return $this->render('pengingat/index.html.twig', [
-            'entities' => $pengingatRepository->findByUser($this->getUser()),
+            'entities' => $pengingatRepository->findAllEntities([
+                'isAdmin' => $authorizationChecker->isGranted('ROLE_ADMIN'),
+                'user' => $this->getUser(),
+            ]),
         ]);
     }
 
     /**
      * @Route("/new", name="pengingat_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, AuthorizationCheckerInterface $authorizationChecker): Response
     {
         $pengingat = new Pengingat();
-        $form = $this->createForm(PengingatType::class, $pengingat);
+        $form = $this->createForm(PengingatType::class, $pengingat, [
+            'isAdmin' => $authorizationChecker->isGranted('ROLE_ADMIN'),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $pengingat->setUser($this->getUser());
+            if (!$authorizationChecker->isGranted('ROLE_ADMIN')) {
+                $pengingat->setUser($this->getUser());
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($pengingat);
@@ -65,11 +74,20 @@ class DefaultController extends Controller
     /**
      * @Route("/{id}/edit", name="pengingat_edit", methods={"GET","POST"}, requirements={"id":"\d+"})
      */
-    public function edit(Request $request, Pengingat $pengingat): Response
+    public function edit(Request $request, Pengingat $pengingat, AuthorizationCheckerInterface $authorizationChecker): Response
     {
         $this->denyAccessUnlessGranted('edit', $pengingat, 'Akses ditolak!');
 
-        $form = $this->createForm(PengingatType::class, $pengingat);
+        $isPemilikPengingat = $pengingat->getUser() instanceof User;
+        $namaPenerima = $isPemilikPengingat ? $pengingat->getUser()->getNamaLengkap() : $pengingat->getNamaPenerima();
+        $nomorHpPenerima = $isPemilikPengingat ? $pengingat->getUser()->getNomorHp() : $pengingat->getNomorHpPenerima();
+
+        $form = $this->createForm(PengingatType::class, $pengingat, [
+            'isAdmin' => $authorizationChecker->isGranted('ROLE_ADMIN'),
+            'isPemilikPengingat' => $isPemilikPengingat,
+            'namaPenerima' => $namaPenerima,
+            'nomorHpPenerima' => $nomorHpPenerima,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {

@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -54,13 +56,44 @@ class PengingatType extends AbstractType
                 'choices' => Pengingat::getDaftarAngkaHariSebulan(),
                 'placeholder' => 'Pilih tanggal',
             ])
+            ->add('nominalSedekah', MoneyType::class, [
+                'currency' => 'IDR',
+                'grouping' => 3,
+                'scale' => 0,
+                'attr' => [
+                    'autocomplete' => 'off',
+                ],
+            ])
         ;
+
+        if ($options['isAdmin']) {
+            $builder
+                ->add('namaPenerima', TextType::class, [
+                    'required' => true,
+                    'data' => $options['namaPenerima'],
+                    'mapped' => !$options['isPemilikPengingat'],
+                    'attr' => [
+                        'placeholder' => 'Untuk siapa pengingat ini?',
+                    ],
+                ])
+                ->add('nomorHpPenerima', TextType::class, [
+                    'required' => true,
+                    'data' => $options['nomorHpPenerima'],
+                    'mapped' => !$options['isPemilikPengingat'],
+                ])
+            ;
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setRequired('isAdmin');
+
         $resolver->setDefaults([
             'data_class' => Pengingat::class,
+            'isPemilikPengingat' => null,
+            'namaPenerima' => null,
+            'nomorHpPenerima' => null,
         ]);
     }
 }

@@ -1,8 +1,17 @@
 {{ form_start(form) }}
     {{ form_row(form.judul) }}
+    {{ form_row(form.nominalSedekah) }}
+
+    {% if form.namaPenerima is defined %}
+        {{ form_row(form.namaPenerima) }}
+    {% endif %}
+
+    {% if form.nomorHpPenerima is defined %}
+        {{ form_row(form.nomorHpPenerima) }}
+    {% endif %}
 
     <div class="form-group row">
-        <label class="col-form-label col-sm-2">Ingatkan saya</label>
+        <label class="col-form-label col-sm-2">{{ is_granted('ROLE_ADMIN') ? 'Ingatkan' : 'Ingatkan saya' }}</label>
         <div class="col">{{ form_widget(form.perulangan) }}</div>
     </div>
 
