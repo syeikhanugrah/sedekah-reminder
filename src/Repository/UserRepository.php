@@ -19,6 +19,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         return $this->createQueryBuilder('u')
             ->where('u.confirmationToken = :confirmationToken')
             ->setParameter('confirmationToken', $confirmationToken)
+            ->orderBy('u.namaLengkap', 'ASC')
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -38,6 +39,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         return $this->createQueryBuilder('u')
             ->where('u.id != :userId')
             ->setParameter('userId', $id)
+            ->orderBy('u.namaLengkap', 'ASC')
             ->getQuery()
             ->getResult();
     }
