@@ -25,7 +25,7 @@ class UserController extends Controller
      */
     public function index(Request $request, UserRepository $userRepository, PaginatorInterface $paginator): Response
     {
-        $pagination = $paginator->paginate($userRepository->findAll(), $request->query->getInt('page', 1), 10);
+        $pagination = $paginator->paginate($userRepository->findAllExcept($this->getUser()->getId()), $request->query->getInt('page', 1), 10);
 
         return $this->render('user/index.html.twig', [
             'users' => $pagination,
