@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/annotations": "^1.6",
+        "knplabs/knp-paginator-bundle": "^3.0",
         "knpuniversity/oauth2-client-bundle": "^1.27",
         "league/oauth2-client": "^2.4",
         "league/oauth2-google": "^3.0",

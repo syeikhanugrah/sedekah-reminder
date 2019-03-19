@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Daftar user{% endblock %}
+
+{% block content %}
+    <h1>Daftar user</h1>
+
+    <a href="{{ path('user_new') }}" class="btn btn-primary mb-3">Buat user baru</a>
+
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Nama lengkap</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Nomor Hp</th>
+                <th>Peran</th>
+                <th>Tindakan</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.namaLengkap }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.nomorHp }}</td>
+                <td>
+                    {% for role in user.roles %}
+                        {{ role|replace({'ROLE_':''}) }}{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{{ path('user_show', {'id': user.id}) }}" class="mr-2">Lihat</a>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}">Ubah</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">Belum ada user</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {{ knp_pagination_render(users) }}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Halaman tidak ditemukan{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {{ encore_entry_link_tags('css/error/style') }}
+{% endblock %}
+
+{% block content %}
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Halaman tidak dapat ditemukan</h4>
+
+        <p>Halaman yang anda minta mungkin rusak, dihapus atau anda tidak memiliki izin untuk mengaksesnya.</p>
+
+        <ul class="mb-0">
+            <li><a href="{{ path('pengingat_index') }}">Kembali ke halaman utama</a></li>
+            <li><a href="{{ app.request.server.get('HTTP_REFERER')|default('/') }}">Kembali ke halaman sebelumnya</a></li>
+        </ul>
+    </div>
+{% endblock %}

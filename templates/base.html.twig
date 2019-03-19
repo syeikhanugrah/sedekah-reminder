@@ -24,6 +24,16 @@
                     <div class="collapse navbar-collapse" id="navbarMenu">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a class="nav-link" href="{{ path('pengingat_index') }}">Pengingat</a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a class="nav-link" href="{{ path('user_index') }}">User</a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item">
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                     <a class="nav-link" href="{{ path('security_logout') }}">Keluar</a>
                                 {% endif %}
