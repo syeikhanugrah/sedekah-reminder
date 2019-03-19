@@ -12,6 +12,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
+    const MODE_EDIT_PROFILE = 1;
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -34,12 +36,17 @@ class UserType extends AbstractType
                 'second_options' => ['label' => 'Password (ulangi)'],
             ])
         ;
+
+        if ($options['mode'] === self::MODE_EDIT_PROFILE) {
+            $builder->remove('roles');
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'mode' => null,
         ]);
     }
 }
