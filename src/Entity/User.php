@@ -80,7 +80,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var array
      *
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="array")
      */
     private $roles = [];
 
@@ -164,9 +164,20 @@ class User implements UserInterface, \Serializable
         return $this->enabled;
     }
 
-    public function setRoles(array $roles): void
+    public function addRole(string $role)
     {
-        $this->roles = $roles;
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+    }
+
+    public function setRoles(array $roles)
+    {
+        $this->roles = array();
+
+        foreach ($roles as $role) {
+            $this->addRole($role);
+        }
     }
 
     public function getRoles(): array
