@@ -42,16 +42,16 @@
             <button type="submit" class="btn btn-primary btn-block">Daftar</button>
         {{ form_end(form) }}
 
-        {% if not app.session.has('guard.finish_registration.user_information') %}
-            <div class="separator"><span>Atau</span></div>
+        {#{% if not app.session.has('guard.finish_registration.user_information') %}#}
+            {#<div class="separator"><span>Atau</span></div>#}
 
-            <div class="row mb-4">
-                <div class="col">
-                    <a href="{{ path('connect_google') }}" class="btn btn-secondary btn-block">
-                        <i class="fab fa-google"></i> Daftar dengan Google
-                    </a>
-                </div>
-            </div>
-        {% endif %}
+            {#<div class="row mb-4">#}
+                {#<div class="col">#}
+                    {#<a href="{{ path('connect_google') }}" class="btn btn-secondary btn-block">#}
+                        {#<i class="fab fa-google"></i> Daftar dengan Google#}
+                    {#</a>#}
+                {#</div>#}
+            {#</div>#}
+        {#{% endif %}#}
     </div>
 {% endblock %}
