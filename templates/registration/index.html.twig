@@ -42,6 +42,8 @@
             <button type="submit" class="btn btn-primary btn-block">Daftar</button>
         {{ form_end(form) }}
 
+        <a href="{{ path('security_login') }}" class="btn btn-secondary btn-block mt-2">&laquo; Kembali ke halaman login</a>
+
         {#{% if not app.session.has('guard.finish_registration.user_information') %}#}
             {#<div class="separator"><span>Atau</span></div>#}
 
